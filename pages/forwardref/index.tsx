@@ -1,18 +1,20 @@
 import { NextPage } from "next";
-import React from "react";
+import React, { HTMLInputTypeAttribute } from "react";
 
-const Forwardref: NextPage = () => {
-    const FancyButton = React.forwardRef((props, ref) => (
-        <button ref={ref} className="FancyButton" onClick={props.onClick}>
-            {props.children}
-        </button>
-    ));
+const FancyInput = React.forwardRef((props: React.InputHTMLAttributes<HTMLLIElement>, ref) => (
+    <input ref={ref} {...props} />
+));
 
-    const ref = React.createRef<string>();
-
+const Index: NextPage = () => {
+    const inputRef = React.useRef<HTMLInputElement>(null);
     return (
-        <FancyButton ref={ref} onClick={() => console.log(ref, 'ref')}>click me</FancyButton>
-    )
-};
+        <>
+            value: {inputRef?.current?.value || ''}
+            <FancyInput ref={inputRef} />
+            {/* ref可以获取某个组件在某时刻的状态 */}
+            <button onClick={() => console.log(inputRef?.current?.value)}>get Ref value</button>
+        </>
+    );
+}
 
-export default Forwardref;
+export default Index;
